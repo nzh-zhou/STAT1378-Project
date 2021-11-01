@@ -1,0 +1,18 @@
+Package: project
+Title: STAT1378 Project Functions
+Version: 0.0.0.9000
+Authors@R: 
+    person(given = "Ze Hong", 
+           family = "Zhou", 
+           role = c("aut", "cre"), 
+           email = "nzh.zhou@outlook.com")
+Description: Provides functions for the project assessment task.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    rmarkdown

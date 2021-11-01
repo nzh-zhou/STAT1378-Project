@@ -1,0 +1,110 @@
+---
+title: "STAT1378 Project Report"
+author: "Ze Hong Zhou"
+date: "30/10/2021"
+output:
+  bookdown::pdf_document2:
+    extra_dependencies: ["enumitem"]
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(kableExtra)
+library(project)
+```
+
+# Introduction
+
+This report will answer the following questions about the human population using the process of statistical hypothesis testing as part of an academic assessment.
+
+\begin{enumerate}
+    \item \label{itm:q1} Is there a linear relationship between height and weight?
+    \item \label{itm:q2} Is the mean height of males and females the same?
+    \item \label{itm:q3} Is there any association between gender and the amount of physical activity?
+\end{enumerate}
+
+# Data
+
+Data has been collected on 1000 different individuals on their gender, height, weight, and level of physical activity. Each observation has been given a unique ID, and the data assembled into a data set.
+
+The data source does not provide any information about the method of data collection or measurement, which places the validity of this report in jeopardy.
+
+We assume that the observations were randomly sampled in a way that the male and female populations are independent of each other, and the data measurements are highly accurate (so that the statistical test assumptions of independence in section \@ref(meth) are necessarily satisfied).
+
+# Methods {#meth}
+
+To test questions \@ref(itm:q1) - \@ref(itm:q3), we will construct an appropriate hypothesis and test statistic in section \@ref(meth), check if assumptions for the hypothesis test have been met and conduct the test in section \@ref(eda), and display the results of the test in section \@ref(outcome).
+
+### Question \@ref(itm:q1) {#meth1}
+
+Let the independent variable, $X$, be height, and the dependent variable, $Y$, be weight. To test if a linear relationship exists between these variables, we use the following hypotheses and test statistic.
+
+Hypotheses: `r hypothesis(1)`
+
+Test statistic: $\tau = \frac{\hat\beta}{S_{Y|X}/\sqrt{S_{XX}}}$
+
+$\tau \sim t_{`r nrow(proj)-2`}$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \@ref(eda1)).
+
+
+### Question \@ref(itm:q2) {#meth2}
+
+Let $F$ represent the female population and $M$ represent the male population. Since the sample standard deviation for each group is `r filter(proj, gender == "Female")[["height"]] %>% sd() %>% round(2)` and `r filter(proj, gender == "Male")[["height"]] %>% sd() %>% round(2)` respectively, the equal variance assumption is appropriate (more details in section \@ref(eda2)). To test if the population height means are the same, we use the following hypotheses and test statistic.
+
+Hypotheses: `r hypothesis(2)`
+
+Test statistic: $\tau = \frac{\overline{X}_F - \overline{X}_M}{s_p\sqrt{\frac{1}{n_F}+\frac{1}{n_M}}}$ where $s_p$ is the pooled standard deviation.
+
+$\tau \sim t_{`r nrow(proj)-2`}$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \@ref(eda2)).
+
+### Question \@ref(itm:q3)\ {#meth3}
+
+Let $N$, $D$, and $I$ represent the events of "None", "Moderate", and "Intense" level of physical activity respectively. To test if variables gender and physical activity are associated, we use the following hypotheses and test statistic.
+
+Hypotheses: `r hypothesis(3)`
+```{r, echo = FALSE}
+x2 <- function(event) {
+  paste0("\\frac{(n_{", event, "}-E(n_{", event, "}))^2}{E(n_{", event, "})}")
+}
+```
+Test statistic:
+\begin{center}
+$X^2 = `r c("FN", "FD", "FI", "MN", "MD", "MI") %>% x2() %>% paste(collapse = " + ")`$
+\end{center}
+
+$X^2 \mathrel{\dot\sim} \chi^2_2$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \@ref(eda3)).
+
+# Results
+
+## Exploratory Data Analysis {#eda}
+
+### Question \@ref(itm:q1) {#eda1}
+
+
+
+### Question \@ref(itm:q2) {#eda2}
+
+### Question \@ref(itm:q3) {#eda3}
+
+## Outcome
+
+# Discussion and Conclusion
+
+* Title
+* Abstract (optional)
+* Introduction
+* Background Material (optional)
+* Data
+* Methods
+* Results
+* Conclusions/Discussion
+* References
+* Appendices (optional)
+
+
+* Title
+* Introduction
+* Data
+* Methods
+* Results
+* Conclusions/Discussion
