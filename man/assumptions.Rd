@@ -4,16 +4,21 @@
 \alias{assumptions}
 \title{Test Assumptions}
 \usage{
-assumptions(question, data)
+assumptions(data, question, output = "LaTeX")
 }
 \arguments{
-\item{question}{the question number; an integer between 1 and 3 inclusive}
-
 \item{data}{the data input; must be of class "data.frame"}
+
+\item{question}{the question number; must be an integer between 1 and 3 inclusive}
+
+\item{output}{unnecessary argument used for consistency; must be either "LaTeX" or "R"}
 }
 \value{
 the correct plots or graph to test assumptions
 }
 \description{
 Test Assumptions
+}
+\examples{
+assumptions(proj, 1, output = "R")
 }

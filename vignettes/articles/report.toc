@@ -8,3 +8,5 @@
 \contentsline {subsubsection}{\numberline {4.1.2}Conducting the test}{3}{subsubsection.4.1.2}%
 \contentsline {subsection}{\numberline {4.2}Outcome}{3}{subsection.4.2}%
 \contentsline {section}{\numberline {5}Discussion and conclusion}{3}{section.5}%
+\contentsline {section}{\numberline {6}References}{3}{section.6}%
+\contentsline {section}{\numberline {A}The \texttt {mytest} function}{3}{appendix.A}%

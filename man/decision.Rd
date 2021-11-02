@@ -4,16 +4,21 @@
 \alias{decision}
 \title{Report test decision}
 \usage{
-decision(question, data)
+decision(data, question, output = "LaTeX")
 }
 \arguments{
-\item{question}{the question number; an integer between 1 and 3 inclusive}
-
 \item{data}{the data input; must be of class "data.frame"}
+
+\item{question}{the question number; must be an integer between 1 and 3 inclusive}
+
+\item{output}{the desired type of output; must be either "LaTeX" or "R"}
 }
 \value{
 the decision of the statistical test
 }
 \description{
 Report test decision
+}
+\examples{
+decision(proj, 1, output = "R")
 }

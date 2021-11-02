@@ -4,14 +4,21 @@
 \alias{hypothesis}
 \title{Report test hypothesis}
 \usage{
-hypothesis(question)
+hypothesis(data, question, output = "LaTeX")
 }
 \arguments{
-\item{question}{the question number; an integer between 1 and 3 inclusive}
+\item{data}{unnecessary argument used for consistency; must be of class "data.frame"}
+
+\item{question}{the question number; must be an integer between 1 and 3 inclusive}
+
+\item{output}{the desired type of output; must be either "LaTeX" or "R"}
 }
 \value{
-a character string with the correct hypothesis for LaTeX to read
+a character string with the correct hypothesis
 }
 \description{
 Report test hypothesis
+}
+\examples{
+hypothesis(proj, 1, output = "R")
 }

@@ -10,7 +10,7 @@ output:
 params:
   # the data set must be a csv file in the same directory as this Rmd file
   # it must also have the same column names as the data set `proj`
-  dat: zedispensergoeshere # place the name of the csv file here including the extension
+  dat: dispensergoeshere # place the name of the csv file here including the extension
   question: 2
 ---
 
@@ -59,7 +59,7 @@ method <- c(
 # Question 1
 paste0('Let the independent variable, $X$, be height, and the dependent variable, $Y$, be weight. To test if a linear relationship exists between these variables, we use the following hypotheses and test statistic, and a significance level of 5%.
 
-Hypotheses: ', hypothesis(1), ' 
+Hypotheses: ', hypothesis(dat, 1), ' 
 
 Test statistic: $\\tau = \\frac{\\hat\\beta}{s_{Y|X}/\\sqrt{S_{XX}}}$
 
@@ -68,7 +68,7 @@ $\\tau \\sim t_{', nrow(dat) - 2 ,'}$ if H$_0$ is true AND linear regression ass
 # Question 2
 paste0('Let $F$ represent the female population and $M$ represent the male population. Since the sample standard deviation for each group is ', filter(dat, gender == "Female")[["height"]] %>% sd() %>% round(2), ' and ', filter(dat, gender == "Male")[["height"]] %>% sd() %>% round(2), ' respectively, the equal variance assumption is appropriate. To test if the population height means are the same, we use the following hypotheses and test statistic, and a significance level of 5%.
 
-Hypotheses: ', hypothesis(2), ' 
+Hypotheses: ', hypothesis(dat, 2), ' 
 
 Test statistic: $\\tau = \\frac{\\overline{X}_F - \\overline{X}_M}{s_p\\sqrt{\\frac{1}{n_F}+\\frac{1}{n_M}}}$ where $s_p$ is the pooled standard deviation.
 
@@ -77,7 +77,7 @@ $\\tau \\sim t_{', nrow(dat)-2, '}$ if H$_0$ is true AND linear regression assum
 # Question 3
 paste0('Let $F$ represent the female population and $M$ represent the male population. Let $N$, $D$, and $I$ represent the events of "None", "Moderate", and "Intense" level of physical activity respectively. To test if variables gender and physical activity are associated, we use the following hypotheses and test statistic.
 
-Hypotheses: ', hypothesis(3), ' 
+Hypotheses: ', hypothesis(dat, 3), ' 
 
 Test statistic:
 \\begin{center}
@@ -96,11 +96,11 @@ $X^2 \\mathrel{\\dot\\sim} \\chi^2_2$ if H$_0$ is true AND linear regression ass
 ### Assumption Testing {#at}
 
 ```{r atfig, out.width = "60%", fig.align = "center", fig.pos = "H", fig.cap = paste0("Graphs to test assumptions for question ", params$question)}
-if (params$question %in% c(1, 2)) assumptions(params$question, dat)
+if (params$question %in% c(1, 2)) assumptions(dat, params$question)
 ```
 
 ```{r attab}
-if (params$question == 3) assumptions(params$question, dat) %>% 
+if (params$question == 3) assumptions(dat, params$question) %>% 
   kbl(booktabs = TRUE, escape = FALSE, digits = 0,
       caption = paste0("Expected value contingency table to test assumptions for question ", params$question)) %>% 
   kable_styling(latex_options = "hold_position") %>% 
@@ -138,7 +138,7 @@ at <- c('As seen in figure \\@ref(fig:atfig), all linear regression assumptions 
 Since the statistical test assumptions are satisfied, we can now go ahead with the test. We use functions from the `stats` package in R to conduct the test. Table \@ref(tab:ctt) contains a summary of values obtained from the test.
 
 ```{r ctt}
-fit(params$question, dat) %>% 
+fit(dat, params$question) %>% 
   kbl(col.names = NULL, escape = FALSE, align = "rl", 
       caption = paste0("Summary of the statistical test for question ", 
                        params$question)) %>% 
@@ -149,23 +149,23 @@ fit(params$question, dat) %>%
 
 ## Outcome
 
-Based off the p-value in table \@ref(tab:ctt), `r decision(params$question, dat)`.
+Based off the p-value in table \@ref(tab:ctt), `r decision(dat, params$question)`.
 
-This means that `r conclusion(params$question, dat)`.
+This means that `r conclusion(dat, params$question)`.
 
 # Discussion and conclusion
 
 ```{r}
-decision <- (c(summary(lm(dat$weight ~ dat$height))$coefficients[2, 4],
+subs <- (c(summary(lm(dat$weight ~ dat$height))$coefficients[2, 4],
                  t.test(height ~ gender, var.equal = TRUE, data = dat)$p.value,
                  chisq.test(dat$gender, dat$phys, correct = FALSE)$p.value)[params$question]
                < 0.05) + 1
 statement <- c(c("there is no linear relationship between height and weight", 
-                   "there is a linear relationship between height and weight")[decision],
+                   "there is a linear relationship between height and weight")[subs],
                  c("the mean height of males and females is the same",
-                   "the mean height of males and females is different")[decision],
+                   "the mean height of males and females is different")[subs],
                  c("gender and physical activity are independent",
-                   "gender and physical activity are dependent")[decision])[params$question]
+                   "gender and physical activity are dependent")[subs])[params$question]
 ```
 
 As stated in section \@ref(introduction), the aim of this report was to answer question `r params$question`. By assuming/testing a series of assumptions in section \@ref(at), we have concluded that `r statement`, hence addressing the aim of this report.
@@ -178,18 +178,10 @@ As stated in section \@ref(introduction), the aim of this report was to answer q
 
 # The `mytest` function
 
-If you are reading this, then you must have downloaded and installed my package. I've written the function `mytest` in my package, which does the whole statistical test for a specific question like I have done in this report, and you can use it like below. Run `?project::mytest` for more details.
+If you are reading this, then you must have downloaded and installed my package. The function `mytest` does the whole statistical test for a specific question like what I have done in this report. Run `?project::mytest` for more details.
 
-
-
-* Abstract (optional)
-
-* Background Material (optional)
-
-
-
-
-
-
-
-
+```{r mytest, echo = TRUE}
+mytest(proj, 1)
+mytest(proj, 2)
+mytest(proj, 3)
+```

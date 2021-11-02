@@ -4,16 +4,21 @@
 \alias{conclusion}
 \title{Report test conclusion}
 \usage{
-conclusion(question, data)
+conclusion(data, question, output = "LaTeX")
 }
 \arguments{
-\item{question}{the question number; an integer between 1 and 3 inclusive}
-
 \item{data}{the data input; must be of class "data.frame"}
+
+\item{question}{the question number; must be an integer between 1 and 3 inclusive}
+
+\item{output}{unnecessary argument used for consistency; must be either "LaTeX" or "R"}
 }
 \value{
 the conclusion of the statistical test
 }
 \description{
 Report test conclusion
+}
+\examples{
+conclusion(proj, 1, output = "R")
 }

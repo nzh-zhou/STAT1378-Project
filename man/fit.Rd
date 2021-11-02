@@ -4,16 +4,21 @@
 \alias{fit}
 \title{Report test summary}
 \usage{
-fit(question, data)
+fit(data, question, output = "LaTeX")
 }
 \arguments{
-\item{question}{the question number; an integer between 1 and 3 inclusive}
-
 \item{data}{the data input; must be of class "data.frame"}
+
+\item{question}{the question number; must be an integer between 1 and 3 inclusive}
+
+\item{output}{the desired type of output; must be either "LaTeX" or "R"}
 }
 \value{
-important values for the statistical test to answer the question
+a statistical test summary to help answer the question
 }
 \description{
 Report test summary
+}
+\examples{
+fit(proj, 1, output = "R")
 }
