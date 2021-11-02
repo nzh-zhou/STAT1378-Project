@@ -16,3 +16,9 @@ Depends:
     R (>= 2.10)
 Suggests: 
     rmarkdown
+Imports: 
+    stats,
+    ggplot2,
+    patchwork,
+    glue,
+    tibble

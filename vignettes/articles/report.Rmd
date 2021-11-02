@@ -2,27 +2,37 @@
 title: "STAT1378 Project Report"
 author: "Ze Hong Zhou"
 date: "30/10/2021"
+header-includes:
+   - \usepackage{enumitem}
 output:
-  bookdown::pdf_document2:
-    extra_dependencies: ["enumitem"]
+  bookdown::pdf_document2: default
+# or        html_document2: default
+params:
+  # the data set must be a csv file in the same directory as this Rmd file
+  # it must also have the same column names as the data set `proj`
+  dat: zedispensergoeshere # place the name of the csv file here including the extension
+  question: 2
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(echo = FALSE)
 library(tidyverse)
 library(kableExtra)
 library(project)
+if (str_detect(params$dat, ".csv")) {
+  dat <- read_csv(params$dat)
+} else {
+  dat <- proj
+}
 ```
 
 # Introduction
 
-This report will answer the following questions about the human population using the process of statistical hypothesis testing as part of an academic assessment.
+This report will answer question `r params$question` below about the human population using the process of statistical hypothesis testing as part of an academic assessment.
 
-\begin{enumerate}
-    \item \label{itm:q1} Is there a linear relationship between height and weight?
-    \item \label{itm:q2} Is the mean height of males and females the same?
-    \item \label{itm:q3} Is there any association between gender and the amount of physical activity?
-\end{enumerate}
+1) Is there a linear relationship between height and weight?
+2) Is the mean height of males and females the same?
+3) Is there any association between gender and the amount of physical activity?
 
 # Data
 
@@ -34,77 +44,152 @@ We assume that the observations were randomly sampled in a way that the male and
 
 # Methods {#meth}
 
-To test questions \@ref(itm:q1) - \@ref(itm:q3), we will construct an appropriate hypothesis and test statistic in section \@ref(meth), check if assumptions for the hypothesis test have been met and conduct the test in section \@ref(eda), and display the results of the test in section \@ref(outcome).
+To test question `r params$question`, we will construct appropriate hypotheses and an appropriate test statistic in section \@ref(hst), check if assumptions for the hypothesis test have been met and conduct the test in section \@ref(eda), and display the results of the test in section \@ref(outcome).
 
-### Question \@ref(itm:q1) {#meth1}
+## Hypotheses and Test Statistic {#hst}
 
-Let the independent variable, $X$, be height, and the dependent variable, $Y$, be weight. To test if a linear relationship exists between these variables, we use the following hypotheses and test statistic.
-
-Hypotheses: `r hypothesis(1)`
-
-Test statistic: $\tau = \frac{\hat\beta}{S_{Y|X}/\sqrt{S_{XX}}}$
-
-$\tau \sim t_{`r nrow(proj)-2`}$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \@ref(eda1)).
-
-
-### Question \@ref(itm:q2) {#meth2}
-
-Let $F$ represent the female population and $M$ represent the male population. Since the sample standard deviation for each group is `r filter(proj, gender == "Female")[["height"]] %>% sd() %>% round(2)` and `r filter(proj, gender == "Male")[["height"]] %>% sd() %>% round(2)` respectively, the equal variance assumption is appropriate (more details in section \@ref(eda2)). To test if the population height means are the same, we use the following hypotheses and test statistic.
-
-Hypotheses: `r hypothesis(2)`
-
-Test statistic: $\tau = \frac{\overline{X}_F - \overline{X}_M}{s_p\sqrt{\frac{1}{n_F}+\frac{1}{n_M}}}$ where $s_p$ is the pooled standard deviation.
-
-$\tau \sim t_{`r nrow(proj)-2`}$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \@ref(eda2)).
-
-### Question \@ref(itm:q3)\ {#meth3}
-
-Let $N$, $D$, and $I$ represent the events of "None", "Moderate", and "Intense" level of physical activity respectively. To test if variables gender and physical activity are associated, we use the following hypotheses and test statistic.
-
-Hypotheses: `r hypothesis(3)`
-```{r, echo = FALSE}
+```{r method}
+# define chi-sq function for question 3
 x2 <- function(event) {
   paste0("\\frac{(n_{", event, "}-E(n_{", event, "}))^2}{E(n_{", event, "})}")
 }
-```
-Test statistic:
-\begin{center}
-$X^2 = `r c("FN", "FD", "FI", "MN", "MD", "MI") %>% x2() %>% paste(collapse = " + ")`$
-\end{center}
 
-$X^2 \mathrel{\dot\sim} \chi^2_2$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \@ref(eda3)).
+# write hypotheses and test statistic
+method <- c(
+# Question 1
+paste0('Let the independent variable, $X$, be height, and the dependent variable, $Y$, be weight. To test if a linear relationship exists between these variables, we use the following hypotheses and test statistic, and a significance level of 5%.
+
+Hypotheses: ', hypothesis(1), ' 
+
+Test statistic: $\\tau = \\frac{\\hat\\beta}{s_{Y|X}/\\sqrt{S_{XX}}}$
+
+$\\tau \\sim t_{', nrow(dat) - 2 ,'}$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \\@ref(at)). High values of $\\tau$ argue against H$_0$.'), 
+
+# Question 2
+paste0('Let $F$ represent the female population and $M$ represent the male population. Since the sample standard deviation for each group is ', filter(dat, gender == "Female")[["height"]] %>% sd() %>% round(2), ' and ', filter(dat, gender == "Male")[["height"]] %>% sd() %>% round(2), ' respectively, the equal variance assumption is appropriate. To test if the population height means are the same, we use the following hypotheses and test statistic, and a significance level of 5%.
+
+Hypotheses: ', hypothesis(2), ' 
+
+Test statistic: $\\tau = \\frac{\\overline{X}_F - \\overline{X}_M}{s_p\\sqrt{\\frac{1}{n_F}+\\frac{1}{n_M}}}$ where $s_p$ is the pooled standard deviation.
+
+$\\tau \\sim t_{', nrow(dat)-2, '}$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \\@ref(at)). High values of $|\\tau|$ argue against H$_0$.'), 
+
+# Question 3
+paste0('Let $F$ represent the female population and $M$ represent the male population. Let $N$, $D$, and $I$ represent the events of "None", "Moderate", and "Intense" level of physical activity respectively. To test if variables gender and physical activity are associated, we use the following hypotheses and test statistic.
+
+Hypotheses: ', hypothesis(3), ' 
+
+Test statistic:
+\\begin{center}
+$X^2 = ', c("FN", "FD", "FI", "MN", "MD", "MI") %>% x2() %>% paste(collapse = " + "), '$
+\\end{center}
+
+$X^2 \\mathrel{\\dot\\sim} \\chi^2_2$ if H$_0$ is true AND linear regression assumptions are satisfied (see section \\@ref(at)). High values of $X^2$ argue against H$_0$.'))[params$question]
+```
+
+`r method`
 
 # Results
 
 ## Exploratory Data Analysis {#eda}
 
-### Question \@ref(itm:q1) {#eda1}
+### Assumption Testing {#at}
+
+```{r atfig, out.width = "60%", fig.align = "center", fig.pos = "H", fig.cap = paste0("Graphs to test assumptions for question ", params$question)}
+if (params$question %in% c(1, 2)) assumptions(params$question, dat)
+```
+
+```{r attab}
+if (params$question == 3) assumptions(params$question, dat) %>% 
+  kbl(booktabs = TRUE, escape = FALSE, digits = 0,
+      caption = paste0("Expected value contingency table to test assumptions for question ", params$question)) %>% 
+  kable_styling(latex_options = "hold_position") %>% 
+  column_spec(1, border_left = TRUE, border_right = TRUE) %>% 
+  column_spec(4, border_right = TRUE)
+```
+
+```{r at}
+at <- c('As seen in figure \\@ref(fig:atfig), all linear regression assumptions seem to be satisfied:
+
+* There seems to be a linear trend between height and weight from the top left graph.
+* For any value of the fitted value, the residuals seems to be normally distributed with a constant variance from the top right and bottom graph.
+* We have assumed that the data was randomly sampled in section \\@ref(data) and observations are therefore independent of each other.',
 
 
+'As seen in figure \\@ref(fig:atfig), all two sample t-test assumptions seem to be satisfied.
 
-### Question \@ref(itm:q2) {#eda2}
+* We have assumed that the data was randomly sampled in section \\@ref(data) and observations are therefore independent of each other.
+* We have assumed that the two populations are independent of each other in section \\@ref(data).
+* The data of height for each gender seems to be normally distributed since the QQ plots in the top graph closely follow a straight line.
+* The variance of height for each gender is roughly equal due to the similar length and shape of boxplots.',
 
-### Question \@ref(itm:q3) {#eda3}
+
+"As seen in table \\@ref(tab:attab), all Pearson's chi-squared test assumptions seem to be satisfied.
+
+* We have assumed that the data was randomly sampled in section \\@ref(data) and observations are therefore independent of each other.
+* The expected values of each event in the contingency table are sufficiently large ($\\geq 5$) to be able to use the chi-squared approximation for the test statistic."
+)[params$question]
+```
+
+`r at`
+
+### Conducting the test
+
+Since the statistical test assumptions are satisfied, we can now go ahead with the test. We use functions from the `stats` package in R to conduct the test. Table \@ref(tab:ctt) contains a summary of values obtained from the test.
+
+```{r ctt}
+fit(params$question, dat) %>% 
+  kbl(col.names = NULL, escape = FALSE, align = "rl", 
+      caption = paste0("Summary of the statistical test for question ", 
+                       params$question)) %>% 
+  kable_styling(latex_options = "hold_position") %>% 
+  column_spec(1, border_left = TRUE) %>% 
+  column_spec(2, border_right = TRUE)
+```
 
 ## Outcome
 
-# Discussion and Conclusion
+Based off the p-value in table \@ref(tab:ctt), `r decision(params$question, dat)`.
 
-* Title
+This means that `r conclusion(params$question, dat)`.
+
+# Discussion and conclusion
+
+```{r}
+decision <- (c(summary(lm(dat$weight ~ dat$height))$coefficients[2, 4],
+                 t.test(height ~ gender, var.equal = TRUE, data = dat)$p.value,
+                 chisq.test(dat$gender, dat$phys, correct = FALSE)$p.value)[params$question]
+               < 0.05) + 1
+statement <- c(c("there is no linear relationship between height and weight", 
+                   "there is a linear relationship between height and weight")[decision],
+                 c("the mean height of males and females is the same",
+                   "the mean height of males and females is different")[decision],
+                 c("gender and physical activity are independent",
+                   "gender and physical activity are dependent")[decision])[params$question]
+```
+
+As stated in section \@ref(introduction), the aim of this report was to answer question `r params$question`. By assuming/testing a series of assumptions in section \@ref(at), we have concluded that `r statement`, hence addressing the aim of this report.
+
+# References
+
+<div id="refs"></div>
+
+# (APPENDIX) Appendix {-}
+
+# The `mytest` function
+
+If you are reading this, then you must have downloaded and installed my package. I've written the function `mytest` in my package, which does the whole statistical test for a specific question like I have done in this report, and you can use it like below. Run `?project::mytest` for more details.
+
+
+
 * Abstract (optional)
-* Introduction
+
 * Background Material (optional)
-* Data
-* Methods
-* Results
-* Conclusions/Discussion
-* References
-* Appendices (optional)
 
 
-* Title
-* Introduction
-* Data
-* Methods
-* Results
-* Conclusions/Discussion
+
+
+
+
+
+

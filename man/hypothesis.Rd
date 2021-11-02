@@ -2,7 +2,7 @@
 % Please edit documentation in R/hypothesis.R
 \name{hypothesis}
 \alias{hypothesis}
-\title{Hypothesis}
+\title{Report test hypothesis}
 \usage{
 hypothesis(question)
 }
@@ -13,5 +13,5 @@ hypothesis(question)
 a character string with the correct hypothesis for LaTeX to read
 }
 \description{
-Hypothesis
+Report test hypothesis
 }

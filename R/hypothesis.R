@@ -1,4 +1,4 @@
-#' Hypothesis
+#' Report test hypothesis
 #'
 #' @param question the question number; an integer between 1 and 3 inclusive
 #'
