@@ -1,0 +1,16 @@
+test_that("function assumptions works", {
+  expect_error(assumptions(pro, c(1, 2)), "input length must be one")
+  expect_error(assumptions(pro, "foo_overrated"), "input must be an integer in 1:3")
+  expect_error(assumptions(pro, 4), "input must be an integer in 1:3")
+  expect_error(assumptions(1 + 1 == "window", 3), "data input must be a data.frame")
+  expect_error(assumptions(pro, 1, c(23, 9)), "argument `output` have length 1")
+  expect_error(assumptions(pro, 2, 42), "argument `output` must be a character vector")
+  expect_error(assumptions(pro, 3, "C++"), 'argument `output` must be either "LaTeX" or "R"')
+  
+  expect_s3_class(assumptions(pro, 1), c("patchwork", "gg", "ggplot"))
+  expect_s3_class(assumptions(pro, 2), c("patchwork", "gg", "ggplot"))
+  expect_identical(class(assumptions(pro, 3)), c("matrix", "array"))
+  expect_s3_class(assumptions(pro, 1, "R"), c("patchwork", "gg", "ggplot"))
+  expect_s3_class(assumptions(pro, 2, "R"), c("patchwork", "gg", "ggplot"))
+  expect_identical(class(assumptions(pro, 3, "R")), c("matrix", "array"))
+})

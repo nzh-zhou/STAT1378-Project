@@ -7,7 +7,7 @@
 #' @export
 #' 
 #' @examples 
-#' print(mytest(proj, 1))
+#' print(mytest(pro, 1))
 print.mytest <- function(x, ...) {
 ## tests
   if (length(attributes(x)$question) != 1) stop("did you hit your head on a wall?")

@@ -20,5 +20,5 @@ a statistical test summary to help answer the question
 Report test summary
 }
 \examples{
-fit(proj, 1, output = "R")
+fit(pro, 1, output = "R")
 }

@@ -20,5 +20,5 @@ the conclusion of the statistical test
 Report test conclusion
 }
 \examples{
-conclusion(proj, 1, output = "R")
+conclusion(pro, 1, output = "R")
 }

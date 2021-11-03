@@ -18,5 +18,5 @@ a nicely formatted print
 print.mytest
 }
 \examples{
-print(mytest(proj, 1))
+print(mytest(pro, 1))
 }

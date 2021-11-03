@@ -20,5 +20,5 @@ the decision of the statistical test
 Report test decision
 }
 \examples{
-decision(proj, 1, output = "R")
+decision(pro, 1, output = "R")
 }

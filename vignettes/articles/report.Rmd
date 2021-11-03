@@ -2,8 +2,6 @@
 title: "STAT1378 Project Report"
 author: "Ze Hong Zhou"
 date: "30/10/2021"
-header-includes:
-   - \usepackage{enumitem}
 output:
   bookdown::pdf_document2: default
 # or        html_document2: default
@@ -11,7 +9,9 @@ params:
   # the data set must be a csv file in the same directory as this Rmd file
   # it must also have the same column names as the data set `proj`
   dat: dispensergoeshere # place the name of the csv file here including the extension
-  question: 2
+  question: 3 #place the question number here
+bibliography: references.bib
+link-citations: TRUE
 ---
 
 ```{r setup, include=FALSE}
@@ -22,7 +22,7 @@ library(project)
 if (str_detect(params$dat, ".csv")) {
   dat <- read_csv(params$dat)
 } else {
-  dat <- proj
+  dat <- pro
 }
 ```
 
@@ -40,7 +40,7 @@ Data has been collected on 1000 different individuals on their gender, height, w
 
 The data source does not provide any information about the method of data collection or measurement, which places the validity of this report in jeopardy.
 
-We assume that the observations were randomly sampled in a way that the male and female populations are independent of each other, and the data measurements are highly accurate (so that the statistical test assumptions of independence in section \@ref(meth) are necessarily satisfied).
+We assume that the observations were randomly sampled in a way that the male and female populations are independent of each other, and the data measurements are highly accurate (so that the statistical test assumptions of independence in section \@ref(at) are necessarily satisfied).
 
 # Methods {#meth}
 
@@ -95,14 +95,18 @@ $X^2 \\mathrel{\\dot\\sim} \\chi^2_2$ if H$_0$ is true AND linear regression ass
 
 ### Assumption Testing {#at}
 
-```{r atfig, out.width = "60%", fig.align = "center", fig.pos = "H", fig.cap = paste0("Graphs to test assumptions for question ", params$question)}
+(ref:cap1) Graphs to test assumptions for question `r params$question`. Generated using the packages `ggplot2` and `patchwork` (@ggplot2, @patchwork).
+
+```{r atfig, out.width = "60%", fig.align = "center", fig.pos = "H", fig.cap = "(ref:cap1)"}
 if (params$question %in% c(1, 2)) assumptions(dat, params$question)
 ```
+
+(ref:cap2) Expected value contingency table to test assumptions for question `r params$question`. Generated using the packages `kableExtra` and `bookdown` (@kableExtra, @bookdown).
 
 ```{r attab}
 if (params$question == 3) assumptions(dat, params$question) %>% 
   kbl(booktabs = TRUE, escape = FALSE, digits = 0,
-      caption = paste0("Expected value contingency table to test assumptions for question ", params$question)) %>% 
+      caption = "(ref:cap2)") %>% 
   kable_styling(latex_options = "hold_position") %>% 
   column_spec(1, border_left = TRUE, border_right = TRUE) %>% 
   column_spec(4, border_right = TRUE)
@@ -135,13 +139,14 @@ at <- c('As seen in figure \\@ref(fig:atfig), all linear regression assumptions 
 
 ### Conducting the test
 
-Since the statistical test assumptions are satisfied, we can now go ahead with the test. We use functions from the `stats` package in R to conduct the test. Table \@ref(tab:ctt) contains a summary of values obtained from the test.
+Since the statistical test assumptions are satisfied, we can now go ahead with the test. We use functions from the `stats` package in R to conduct the test (@stats). Table \@ref(tab:ctt) contains a summary of values obtained from the test.
+
+(ref:cap3) Summary of the statistical test for question `r params$question`. Generated using the packages `kableExtra` and `bookdown` (@kableExtra, @bookdown).
 
 ```{r ctt}
 fit(dat, params$question) %>% 
   kbl(col.names = NULL, escape = FALSE, align = "rl", 
-      caption = paste0("Summary of the statistical test for question ", 
-                       params$question)) %>% 
+      caption = "(ref:cap3)") %>% 
   kable_styling(latex_options = "hold_position") %>% 
   column_spec(1, border_left = TRUE) %>% 
   column_spec(2, border_right = TRUE)
@@ -170,7 +175,8 @@ statement <- c(c("there is no linear relationship between height and weight",
 
 As stated in section \@ref(introduction), the aim of this report was to answer question `r params$question`. By assuming/testing a series of assumptions in section \@ref(at), we have concluded that `r statement`, hence addressing the aim of this report.
 
-# References
+\addcontentsline{toc}{section}{References}
+\section*{References}
 
 <div id="refs"></div>
 
@@ -178,10 +184,8 @@ As stated in section \@ref(introduction), the aim of this report was to answer q
 
 # The `mytest` function
 
-If you are reading this, then you must have downloaded and installed my package. The function `mytest` does the whole statistical test for a specific question like what I have done in this report. Run `?project::mytest` for more details.
+If you are reading this, then you must have downloaded and installed my package. The function `mytest` does the whole statistical test for a specific question, alike what I have done above in this report. Run `?project::mytest` for more details.
 
 ```{r mytest, echo = TRUE}
-mytest(proj, 1)
-mytest(proj, 2)
-mytest(proj, 3)
+mytest(pro, sample(1:3, 1))
 ```

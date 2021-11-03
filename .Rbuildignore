@@ -3,3 +3,5 @@
 ^LICENSE\.md$
 ^data-raw$
 ^vignettes/articles$
+^README\.Rmd$
+^\.github$

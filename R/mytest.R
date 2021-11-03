@@ -7,7 +7,7 @@
 #' @export
 #'
 #' @examples
-#' mytest(proj, 1)
+#' mytest(pro, 1)
 mytest <- function(data, question) {
   x <- list(
     hypothesis = hypothesis(data, question, output = "R"),

@@ -9,7 +9,7 @@
 #' @import stats
 #' 
 #' @examples 
-#' conclusion(proj, 1, output = "R")
+#' conclusion(pro, 1, output = "R")
 conclusion <- function(data, question, output = "LaTeX") {
 ## tests
   if (length(question) != 1) stop("input length must be one")

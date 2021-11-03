@@ -18,5 +18,5 @@ a complete statistical test
 Conduct a complete statistical test
 }
 \examples{
-mytest(proj, 1)
+mytest(pro, 1)
 }

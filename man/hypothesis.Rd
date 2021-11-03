@@ -20,5 +20,5 @@ a character string with the correct hypothesis
 Report test hypothesis
 }
 \examples{
-hypothesis(proj, 1, output = "R")
+hypothesis(pro, 1, output = "R")
 }

@@ -9,7 +9,7 @@
 #' @import stats
 #' 
 #' @examples 
-#' decision(proj, 1, output = "R")
+#' decision(pro, 1, output = "R")
 decision <- function(data, question, output = "LaTeX") {
 ## tests
   if (length(question) != 1) stop("input length must be one")

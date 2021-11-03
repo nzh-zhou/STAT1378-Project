@@ -20,5 +20,5 @@ the correct plots or graph to test assumptions
 Test Assumptions
 }
 \examples{
-assumptions(proj, 1, output = "R")
+assumptions(pro, 1, output = "R")
 }

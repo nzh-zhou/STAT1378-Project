@@ -8,7 +8,7 @@
 #' @export
 #' 
 #' @examples 
-#' hypothesis(proj, 1, output = "R")
+#' hypothesis(pro, 1, output = "R")
 hypothesis <- function(data, question, output = "LaTeX") {
 ## tests
   if (length(question) != 1) stop("input length must be one")

@@ -11,7 +11,7 @@
 #' @import patchwork
 #' 
 #' @examples 
-#' assumptions(proj, 1, output = "R")
+#' assumptions(pro, 1, output = "R")
 assumptions <- function(data, question, output = "LaTeX") {
 ## tests
   if (length(question) != 1) stop("input length must be one")

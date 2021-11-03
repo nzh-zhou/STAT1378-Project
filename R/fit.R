@@ -11,7 +11,7 @@
 #' @importFrom tibble tribble
 #' 
 #' @examples 
-#' fit(proj, 1, output = "R")
+#' fit(pro, 1, output = "R")
 fit <- function(data, question, output = "LaTeX") {
 ## tests
   if (length(question) != 1) stop("input length must be one")

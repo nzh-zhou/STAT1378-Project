@@ -10,4 +10,5 @@
 #'   \item{weight}{the weight of the person, in kg}
 #'   \item{phys}{the level of physical activity of the person, either "None", "Moderate", or "Intense"}
 #' }
-"proj"
+#' 
+"pro"
