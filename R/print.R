@@ -20,4 +20,5 @@ print.mytest <- function(x, ...) {
   cat("\n", "Summary of Values", "\n", sep = "")
   print(as.data.frame(x$fit))
   cat("\nDecision: ", x$decision, "\n\n", "Conclusion: ", x$conclusion, sep = "")
+  invisible(x)
 }
