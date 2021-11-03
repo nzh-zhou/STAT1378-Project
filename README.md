@@ -45,3 +45,47 @@ specific question in R format, but only takes in inputs `data` and
 `question`.
 
 ## Examples
+
+``` r
+hypothesis(pro, 1, "R")
+#> [1] "H_0: beta = 0 against H_1: beta != 0"
+assumptions(pro, 1, "R")
+```
+
+<img src="man/figures/README-examples-1.png" width="100%" />
+
+``` r
+fit(pro, 1, "R")
+#> # A tibble: 5 × 2
+#>   summary                          value      
+#>   <chr>                            <glue>     
+#> 1 beta_hat                         0.81       
+#> 2 95% confidence interval for beta [0.72, 0.9]
+#> 3 t-value                          17.6       
+#> 4 degrees of freedom               998        
+#> 5 p-value                          1.6e-60
+decision(pro, 1, "R")
+#> [1] "H_0 is rejected at a 5% significance level"
+conclusion(pro, 1, "R")
+#> [1] "there is sufficient evidence to reject the null hypothesis in favor of the alternative, and we conclude that there is a linear relationship between height and weight"
+
+mytest(pro, 1)
+#> Testing H_0: beta = 0 against H_1: beta != 0 at a 5% significance level
+#> 
+#> Assumption Testing
+```
+
+<img src="man/figures/README-examples-2.png" width="100%" />
+
+    #> 
+    #> Summary of Values
+    #>                            summary       value
+    #> 1                         beta_hat        0.81
+    #> 2 95% confidence interval for beta [0.72, 0.9]
+    #> 3                          t-value        17.6
+    #> 4               degrees of freedom         998
+    #> 5                          p-value     1.6e-60
+    #> 
+    #> Decision: H_0 is rejected at a 5% significance level
+    #> 
+    #> Conclusion: there is sufficient evidence to reject the null hypothesis in favor of the alternative, and we conclude that there is a linear relationship between height and weight

@@ -51,4 +51,11 @@ The wrapper function, `mytest`, outputs the whole statistical test for a specifi
 ## Examples
 
 ```{r examples}
+hypothesis(pro, 1, "R")
+assumptions(pro, 1, "R")
+fit(pro, 1, "R")
+decision(pro, 1, "R")
+conclusion(pro, 1, "R")
+
+mytest(pro, 1)
 ```
