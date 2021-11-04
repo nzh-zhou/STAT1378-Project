@@ -118,15 +118,15 @@ at <- c(
 'As seen in figure \\@ref(fig:atfig), all linear regression assumptions seem to be satisfied:
 
 * There seems to be a linear trend between height and weight from the top left graph.
-* For any value of the fitted value, the residuals seems to be normally distributed with a constant variance from the top right and bottom graph.
+* For any value of the fitted value, the residuals seem to be normally distributed with a constant variance from the top right and bottom graph.
 * We have assumed that the data was randomly sampled in section \\@ref(data) and observations are therefore independent of each other.',
 
 # Question 2
 'As seen in figure \\@ref(fig:atfig), all two sample t-test assumptions seem to be satisfied.
 
 * We have assumed that the data was randomly sampled from the whole human population in section \\@ref(data), and observations are therefore independent of each other within and across each gender.
-* The data of height for each gender seems to be normally distributed since the QQ plots in the top graph closely follow a straight line.
-* The variance of height for each gender is roughly equal due to the similar length and shape of boxplots.',
+* The height variable for each gender seems to be normally distributed since the QQ plots in the top graph closely follow a straight line.
+* The variance of height for each gender is roughly equal due to the similar length and shape of the boxplots.',
 
 # Question 3
 "As seen in table \\@ref(tab:attab), all Pearson's chi-squared test assumptions seem to be satisfied.
